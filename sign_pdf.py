@@ -25,7 +25,7 @@ def create_self_signed_cert(pKey):
     # Create a self signed certificate
     cert = OpenSSL.crypto.X509()
     # Common Name (e.g. server FQDN or Your Name)
-    cert.get_subject().CN = "BASSEM MARJI"
+    cert.get_subject().CN = "Rolando Farez - rabawa4824@flutred.com - Personal Signature "
     # Serial Number
     cert.set_serial_number(int(time.time() * 10))
     # Not Before
