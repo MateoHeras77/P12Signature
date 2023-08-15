@@ -82,9 +82,34 @@ def load():
     return True
 
 
-def sign_file(input_file: str, signatureID: str, x_coordinate: int, 
-            y_coordinate: int, pages: Tuple = None, output_file: str = None
-              ):
+def validate_signature(pdf_path: str) -> bool:
+    # Initialize the PDFNet library
+    PDFNet.Initialize("demo:1692115510889:7c50f18b03000000000b60a915c2232278f3d7be910dde3cfb35db8867")
+
+    # Open the PDF document
+    doc = PDFDoc(pdf_path)
+
+    # Get the iterator over the digital signature form fields in the document
+    digsig_fitr = doc.GetDigitalSignatureFieldIterator()
+
+    # Iterate through the digital signature form fields
+    while digsig_fitr.HasNext():
+        digsig = DigitalSignatureField(digsig_fitr.Current())
+
+        # Verify the digital signature
+        verify_result = digsig.Verify()
+
+        # Check the verification result
+        if verify_result.GetVerificationStatus() == DigitalSignatureField.e_verified:
+            return True
+        else:
+            return False
+
+    return False
+
+
+def sign_file(input_file: str, signatureID: str, x_coordinate: int, y_coordinate: int,
+              pages: Tuple = None, output_file: str = None):
     """Sign a PDF file"""
     # An output file is automatically generated with the word signed added at its end
     if not output_file:
@@ -122,6 +147,13 @@ def sign_file(input_file: str, signatureID: str, x_coordinate: int,
     approval_signature_digsig_field.SignOnNextSave(pk_filename, '')
     # The signing will be done during the following incremental save operation.
     doc.Save(output_file, SDFDoc.e_incremental)
+
+    # Validate the digital signature
+    if validate_signature(output_file):
+        print("Digital signature is valid.")
+    else:
+        print("Digital signature is NOT valid.")
+
     # Develop a Process Summary
     summary = {
         "Input File": input_file, "Signature ID": signatureID, 
