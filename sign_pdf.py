@@ -25,7 +25,7 @@ def create_self_signed_cert(pKey):
     # Create a self signed certificate
     cert = OpenSSL.crypto.X509()
     # Common Name (e.g. server FQDN or Your Name)
-    cert.get_subject().CN = "Rolando Farez - rabawa4824@flutred.com - Personal Signature "
+    cert.get_subject().CN = "Autho: Mario Valeriano S. Mail: jajehob570@frackinc.com "
     # Serial Number
     cert.set_serial_number(int(time.time() * 10))
     # Not Before
@@ -84,7 +84,7 @@ def load():
 
 def validate_signature(pdf_path: str) -> bool:
     # Initialize the PDFNet library
-    PDFNet.Initialize("demo:1692115510889:7c50f18b03000000000b60a915c2232278f3d7be910dde3cfb35db8867")
+    PDFNet.Initialize("demo:1692121874861:7c5088af03000000000e6956fdd3d0716b771ebb188997285c7b62a341")
 
     # Open the PDF document
     doc = PDFDoc(pdf_path)
@@ -115,7 +115,7 @@ def sign_file(input_file: str, signatureID: str, x_coordinate: int, y_coordinate
     if not output_file:
         output_file = (os.path.splitext(input_file)[0]) + "_signed.pdf"
     # Initialize the library
-    PDFNet.Initialize("demo:1692115510889:7c50f18b03000000000b60a915c2232278f3d7be910dde3cfb35db8867")
+    PDFNet.Initialize("demo:1692121874861:7c5088af03000000000e6956fdd3d0716b771ebb188997285c7b62a341")
     doc = PDFDoc(input_file)
     # Create a signature field
     sigField = SignatureWidget.Create(doc, Rect(
